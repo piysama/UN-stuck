@@ -155,7 +155,7 @@ document.addEventListener("click", () => {
   }
 });
 
-// Open folder using manifest.json
+// Open folder using manifest.json (fixed for string filenames)
 async function openWindow(year) {
   winTitle.innerText = year;
   const gallery = xpWindow.querySelector(".gallery-grid");
@@ -166,10 +166,10 @@ async function openWindow(year) {
     const images = await response.json();
 
     images
-      .filter(img => img.year == year)
-      .forEach(imgObj => {
+      .filter(filename => filename.startsWith(year)) // works with string filenames
+      .forEach(filename => {
         const img = new Image();
-        img.src = `${baseURL}${imgObj.file}`;
+        img.src = `${baseURL}${filename}`;
         const div = document.createElement("div");
         div.appendChild(img);
         gallery.appendChild(div);
@@ -199,6 +199,7 @@ audioToggle.onclick = () => {
 
 </body>
 </html>
+
 
 
 
