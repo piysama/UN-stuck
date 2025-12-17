@@ -115,6 +115,7 @@ body {
   padding: 6px 18px;
 }
 
+/* 🔊 HIDDEN BY DEFAULT */
 #audioToggle {
   position: absolute;
   top: 10px;
@@ -123,6 +124,7 @@ body {
   padding: 6px 10px;
   cursor: pointer;
   z-index: 6;
+  display: none;
 }
 
 #desktop {
@@ -295,15 +297,18 @@ const baseURL = "https://raw.githubusercontent.com/piysama/UN-stuck/main/";
 
 let musicUnlocked = false;
 
+// Boot → Login
 setTimeout(() => {
   boot.style.display = "none";
   login.style.display = "block";
 }, 3000);
 
+// Login
 loginBtn.onclick = () => {
   if (password.value === "1234") {
     login.style.display = "none";
     desktop.style.display = "block";
+    audioToggle.style.display = "block"; // 🔊 SHOW AFTER LOGIN
     loginSound.play().catch(()=>{});
     musicUnlocked = false;
   } else {
@@ -311,6 +316,7 @@ loginBtn.onclick = () => {
   }
 };
 
+// Unlock music after user interaction
 document.addEventListener("click", () => {
   if (!musicUnlocked && desktop.style.display === "block") {
     bgAudio.volume = 0.6;
@@ -338,7 +344,6 @@ async function openWindow(year) {
     if (!gallery.children.length) {
       gallery.innerHTML = "<p>No images found.</p>";
     }
-
   } catch {
     gallery.innerHTML = "<p>No images found.</p>";
   }
@@ -352,6 +357,7 @@ function closeWindow() {
   setTimeout(() => xpWindow.style.display = "none", 200);
 }
 
+// Volume toggle
 audioToggle.onclick = () => {
   bgAudio.muted = !bgAudio.muted;
   audioToggle.textContent = bgAudio.muted ? "🔇" : "🔊";
@@ -360,3 +366,5 @@ audioToggle.onclick = () => {
 
 </body>
 </html>
+
+
