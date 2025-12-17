@@ -259,6 +259,12 @@ body {
         <img src="folder.png">
         <div>2025</div>
       </div>
+
+      <!-- PHASE 1: BuTube folder with custom logo -->
+      <div class="folder" onclick="openBuTube()">
+        <img src="butube-logo.png">
+        <div>BuTube</div>
+      </div>
     </div>
 
     <div class="window" id="xpWindow">
@@ -362,9 +368,16 @@ audioToggle.onclick = () => {
   bgAudio.muted = !bgAudio.muted;
   audioToggle.textContent = bgAudio.muted ? "🔇" : "🔊";
 };
+
+// PHASE 1: BuTube empty function
+function openBuTube() {
+  alert("BuTube coming soon");
+};
 </script>
 
 </body>
 </html>
+
+
 
 
