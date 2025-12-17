@@ -128,8 +128,8 @@ const loginSound = document.getElementById("loginSound");
 
 let musicUnlocked = false;
 
-// GitHub Pages base URL
-const baseURL = "https://piysama.github.io/UN-stuck/images/";
+// Base URL for root images
+const baseURL = "https://piysama.github.io/UN-stuck/";
 
 // Boot → Login
 setTimeout(() => {
@@ -157,20 +157,29 @@ document.addEventListener("click", () => {
   }
 });
 
-// Open folder
-function openWindow(year) {
+// Open folder using manifest.json
+async function openWindow(year) {
   winTitle.innerText = year;
   const gallery = xpWindow.querySelector(".gallery-grid");
   gallery.innerHTML = "";
 
-  // Automatically detect images 1–20
-  for (let i = 1; i <= 20; i++) {
-    const img = new Image();
-    img.src = `${baseURL}${year}/image${i}.png`;
-    img.onerror = () => img.remove();
-    const div = document.createElement("div");
-    div.appendChild(img);
-    gallery.appendChild(div);
+  try {
+    const response = await fetch(`${baseURL}manifest.json`);
+    const images = await response.json();
+
+    images
+      .filter(filename => filename.startsWith(year))
+      .forEach(filename => {
+        const img = new Image();
+        img.src = `${baseURL}${filename}`;
+        const div = document.createElement("div");
+        div.appendChild(img);
+        gallery.appendChild(div);
+      });
+
+  } catch (err) {
+    gallery.innerHTML = "<p style='color:red;'>No images found.</p>";
+    console.error(err);
   }
 
   xpWindow.style.display = "block";
@@ -192,6 +201,8 @@ audioToggle.onclick = () => {
 
 </body>
 </html>
+
+
 
 
 
