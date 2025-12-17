@@ -126,8 +126,10 @@ const bgAudio = document.getElementById("bgAudio");
 const audioToggle = document.getElementById("audioToggle");
 const loginSound = document.getElementById("loginSound");
 
+// Use GitHub raw URLs for images
+const baseURL = "https://raw.githubusercontent.com/piysama/UN-stuck/main/";
+
 let musicUnlocked = false;
-const baseURL = "https://piysama.github.io/UN-stuck/";
 
 // Boot → Login
 setTimeout(() => {
@@ -168,12 +170,25 @@ async function openWindow(year) {
     images
       .filter(img => img.year == year) // filter by 'year' property
       .forEach(img => {
-        const imageElem = new Image();
-        imageElem.src = `${baseURL}${img.file}`; // use 'file' property
         const div = document.createElement("div");
-        div.appendChild(imageElem);
+
+        if(img.file.endsWith(".mp4") || img.file.endsWith(".webm")) {
+          const video = document.createElement("video");
+          video.src = `${baseURL}${img.file}`;
+          video.controls = true;
+          div.appendChild(video);
+        } else {
+          const imageElem = new Image();
+          imageElem.src = `${baseURL}${img.file}`;
+          div.appendChild(imageElem);
+        }
+
         gallery.appendChild(div);
       });
+
+    if(gallery.children.length === 0) {
+      gallery.innerHTML = "<p style='color:red;'>No images found.</p>";
+    }
 
   } catch (err) {
     gallery.innerHTML = "<p style='color:red;'>No images found.</p>";
@@ -199,6 +214,8 @@ audioToggle.onclick = () => {
 
 </body>
 </html>
+
+
 
 
 
