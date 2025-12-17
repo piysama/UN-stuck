@@ -1,17 +1,48 @@
 {
-  "files": [
-    "butube-logo.png",
-    "video1.mp4",
-    "video2.mp4",
-    "video3.mp4",
-    "video4.mp4",
-    "video5.mp4",
-    "video6.mp4",
-    "video7.mp4",
-    "video8.mp4",
-    "video9.mp4",
-    "video10.mp4",
-    "video11.mp4"
+  "videos": [
+    {
+      "file": "video1.mp4",
+      "title": "Video 1"
+    },
+    {
+      "file": "video2.mp4",
+      "title": "Video 2"
+    },
+    {
+      "file": "video3.mp4",
+      "title": "Video 3"
+    },
+    {
+      "file": "video4.mp4",
+      "title": "Video 4"
+    },
+    {
+      "file": "video5.mp4",
+      "title": "Video 5"
+    },
+    {
+      "file": "video6.mp4",
+      "title": "Video 6"
+    },
+    {
+      "file": "video7.mp4",
+      "title": "Video 7"
+    },
+    {
+      "file": "video8.mp4",
+      "title": "Video 8"
+    },
+    {
+      "file": "video9.mp4",
+      "title": "Video 9"
+    },
+    {
+      "file": "video10.mp4",
+      "title": "Video 10"
+    },
+    {
+      "file": "video11.mp4",
+      "title": "Video 11"
+    }
   ]
 }
-
