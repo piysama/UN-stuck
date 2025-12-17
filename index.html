@@ -1,181 +1,383 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
 <title>Retro XP Private Site</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
 <style>
-  /* General body */
-  body {
-    margin: 0;
-    font-family: 'VT323', monospace;
-    background: #008080;
-    color: #fff;
-    cursor: url('pixel-cursor.png'), auto;
-    overflow: hidden;
-  }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: black;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "VT323", monospace;
+  cursor: url("https://cur.cursors-4u.net/cursors/cur-2/cur116.cur"), auto;
+}
 
-  /* CRT scanlines */
-  body::before {
-    content: '';
-    position: fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    pointer-events:none;
-    background-image: repeating-linear-gradient(transparent 0 1px, rgba(0,0,0,0.1) 1px 2px);
-    z-index:9999;
-  }
+.crt-frame {
+  padding: 28px;
+  background: #2b2b2b;
+  border-radius: 22px;
+  box-shadow: inset 0 0 40px #000;
+}
 
-  /* Login screen */
-  #login-screen {
-    position: fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    background:#008080;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-  }
-  #login-screen h1 { font-size:3em; margin-bottom:20px; }
-  #login-screen input {
-    font-family: 'VT323', monospace;
-    font-size:1.5em;
-    padding:5px 10px;
-    margin-top:10px;
-    border: 2px solid #fff;
-    background: #004d4d;
-    color: #fff;
-  }
-  #login-screen button {
-    margin-top:20px;
-    font-family: 'VT323', monospace;
-    font-size:1.5em;
-    padding:5px 10px;
-    border:2px solid #fff;
-    background:#004d4d;
-    color:#fff;
-    cursor:pointer;
-  }
+.crt-screen {
+  width: 900px;
+  height: 550px;
+  background: linear-gradient(#efeeda, #e1dfcf);
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+  animation: flicker 0.15s infinite;
+}
 
-  /* Desktop */
-  #desktop {
-    display: none;
-    width:100%;
-    height:100%;
-    padding:20px;
-    box-sizing: border-box;
-  }
+.crt-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.08),
+    rgba(0,0,0,0.08) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+}
 
-  /* XP window style */
-  .window {
-    position: relative;
-    background:#004d4d;
-    border:2px solid #fff;
-    margin:20px auto;
-    width:90%;
-    max-width:1000px;
-    animation: openWindow 0.5s ease forwards;
-  }
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.45));
+  pointer-events: none;
+}
 
-  .title-bar {
-    background:#000080;
-    padding:5px 10px;
-    font-weight:bold;
-    border-bottom:2px solid #fff;
-  }
+@keyframes flicker {
+  0% { opacity: 1; }
+  50% { opacity: 0.97; }
+  100% { opacity: 1; }
+}
 
-  .window-content {
-    padding:10px;
-    display:grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap:10px;
-    background:#004d4d;
-    max-height:400px;
-    overflow-y:auto;
-  }
+#boot {
+  position: absolute;
+  inset: 0;
+  background: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
+  z-index: 5;
+}
 
-  .window-content img, .window-content video {
-    width:100%;
-    border:2px solid #fff;
-    background:#000;
-  }
+.progress-bar {
+  width: 300px;
+  height: 16px;
+  border: 2px solid #444;
+  background: black;
+  overflow: hidden;
+}
 
-  @keyframes openWindow {
-    0% { transform: scale(0.5); opacity:0; }
-    100% { transform: scale(1); opacity:1; }
-  }
+.progress {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(to right, #2d7cff, #6aa6ff);
+  animation: load 3s linear forwards;
+}
+
+@keyframes load {
+  to { width: 100%; }
+}
+
+#login {
+  display: none;
+  text-align: center;
+  padding-top: 120px;
+}
+
+#login h1 { font-size: 48px; }
+#login p { font-size: 22px; }
+
+#login input {
+  margin-top: 20px;
+  font-size: 24px;
+  padding: 6px;
+}
+
+#login button {
+  margin-top: 15px;
+  font-size: 20px;
+  padding: 6px 18px;
+}
+
+/* 🔊 HIDDEN BY DEFAULT */
+#audioToggle {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #c0c0c0;
+  padding: 6px 10px;
+  cursor: pointer;
+  z-index: 6;
+  display: none;
+}
+
+#desktop {
+  display: none;
+  background: url("https://wallpapercave.com/wp/wp2757874.jpg");
+  background-size: cover;
+  padding: 40px;
+  height: 100%;
+}
+
+.folder {
+  width: 120px;
+  margin: 20px;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+}
+
+.folder img {
+  width: 64px;
+}
+
+.folder div {
+  margin-top: 6px;
+  font-size: 22px;
+}
+
+.window {
+  position: absolute;
+  top: 60px;
+  left: 80px;
+  width: 740px;
+  height: 420px;
+  background: #c0c0c0;
+  border: 3px solid #000;
+  display: none;
+  transform: scale(0.8);
+  opacity: 0;
+  animation: openWin 0.25s ease forwards;
+  z-index: 3;
+}
+
+@keyframes openWin {
+  to { transform: scale(1); opacity: 1; }
+}
+
+.window.closing {
+  animation: closeWin 0.2s ease forwards;
+}
+
+@keyframes closeWin {
+  to { transform: scale(0.8); opacity: 0; }
+}
+
+.titlebar {
+  height: 32px;
+  background: linear-gradient(#3a6ea5, #2b5b8a);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  font-size: 20px;
+}
+
+.close {
+  background: red;
+  padding: 0 8px;
+  cursor: pointer;
+}
+
+.gallery-grid {
+  padding: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+  overflow-y: auto;
+  height: calc(100% - 32px);
+}
+
+.gallery-grid div {
+  background: #fff;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.gallery-grid img,
+.gallery-grid video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 </style>
 </head>
+
 <body>
 
-<!-- Login screen -->
-<div id="login-screen">
-  <h1>Hello!</h1>
-  <input type="text" id="username" placeholder="Enter password">
-  <button onclick="login()">Enter</button>
-</div>
+<div class="crt-frame">
+  <div class="crt-screen">
 
-<!-- Desktop -->
-<div id="desktop">
-
-  <h2>Welcome to your Retro XP Site</h2>
-
-  <!-- Butube window -->
-  <div class="window" id="butube-window">
-    <div class="title-bar">Butube Folder</div>
-    <div class="window-content" id="butube-content">
-      <!-- Logo + videos will be loaded here -->
+    <div id="boot">
+      <p>Starting Windows XP...</p>
+      <div class="progress-bar"><div class="progress"></div></div>
     </div>
-  </div>
 
+    <div id="audioToggle">🔊</div>
+
+    <div id="login">
+      <h1>Hello!</h1>
+      <p>Enter password</p>
+      <input type="password" id="password"><br>
+      <button id="loginBtn">OK</button>
+    </div>
+
+    <div id="desktop">
+      <div class="folder" onclick="openWindow(2022)">
+        <img src="folder.png">
+        <div>2022</div>
+      </div>
+      <div class="folder" onclick="openWindow(2023)">
+        <img src="folder.png">
+        <div>2023</div>
+      </div>
+      <div class="folder" onclick="openWindow(2024)">
+        <img src="folder.png">
+        <div>2024</div>
+      </div>
+      <div class="folder" onclick="openWindow(2025)">
+        <img src="folder.png">
+        <div>2025</div>
+      </div>
+
+      <!-- PHASE 1: BuTube folder with custom logo -->
+      <div class="folder" onclick="openBuTube()">
+        <img src="butube-logo.png">
+        <div>BuTube</div>
+      </div>
+    </div>
+
+    <div class="window" id="xpWindow">
+      <div class="titlebar">
+        <span id="winTitle"></span>
+        <div class="close" onclick="closeWindow()">X</div>
+      </div>
+      <div class="gallery-grid"></div>
+    </div>
+
+    <div class="vignette"></div>
+  </div>
 </div>
+
+<audio id="bgAudio" loop preload="auto">
+  <source src="./bg-music.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="loginSound">
+  <source src="https://archive.org/download/windows-xp-startup-sound/Windows%20XP%20Startup.mp3">
+</audio>
 
 <script>
-  // Login function
-  function login() {
-    const pass = document.getElementById('username').value;
-    if(pass === "" || pass === "1234") { // optional password
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('desktop').style.display = 'block';
-    } else {
-      alert("Incorrect password!");
+const boot = document.getElementById("boot");
+const login = document.getElementById("login");
+const desktop = document.getElementById("desktop");
+const password = document.getElementById("password");
+const loginBtn = document.getElementById("loginBtn");
+const xpWindow = document.getElementById("xpWindow");
+const winTitle = document.getElementById("winTitle");
+const bgAudio = document.getElementById("bgAudio");
+const audioToggle = document.getElementById("audioToggle");
+const loginSound = document.getElementById("loginSound");
+
+const baseURL = "https://raw.githubusercontent.com/piysama/UN-stuck/main/";
+
+let musicUnlocked = false;
+
+// Boot → Login
+setTimeout(() => {
+  boot.style.display = "none";
+  login.style.display = "block";
+}, 3000);
+
+// Login
+loginBtn.onclick = () => {
+  if (password.value === "1234") {
+    login.style.display = "none";
+    desktop.style.display = "block";
+    audioToggle.style.display = "block"; // 🔊 SHOW AFTER LOGIN
+    loginSound.play().catch(()=>{});
+    musicUnlocked = false;
+  } else {
+    alert("Wrong password");
+  }
+};
+
+// Unlock music after user interaction
+document.addEventListener("click", () => {
+  if (!musicUnlocked && desktop.style.display === "block") {
+    bgAudio.volume = 0.6;
+    bgAudio.play().then(()=>musicUnlocked = true).catch(()=>{});
+  }
+});
+
+async function openWindow(year) {
+  winTitle.innerText = year;
+  const gallery = xpWindow.querySelector(".gallery-grid");
+  gallery.innerHTML = "";
+
+  try {
+    const response = await fetch(`${baseURL}manifest.json`);
+    const images = await response.json();
+
+    images.filter(img => img.year == year).forEach(img => {
+      const div = document.createElement("div");
+      const imageElem = new Image();
+      imageElem.src = `${baseURL}${img.file}`;
+      div.appendChild(imageElem);
+      gallery.appendChild(div);
+    });
+
+    if (!gallery.children.length) {
+      gallery.innerHTML = "<p>No images found.</p>";
     }
+  } catch {
+    gallery.innerHTML = "<p>No images found.</p>";
   }
 
-  // Load Butube folder content from manifest
-  fetch('butube/manifest.json')
-    .then(res => res.json())
-    .then(data => {
-      const container = document.getElementById('butube-content');
+  xpWindow.style.display = "block";
+  xpWindow.classList.remove("closing");
+}
 
-      // Add logo first
-      const logoFile = data.files.find(f => f.toLowerCase().includes('logo'));
-      if(logoFile) {
-        const logo = document.createElement('img');
-        logo.src = 'butube/' + logoFile;
-        container.appendChild(logo);
-      }
+function closeWindow() {
+  xpWindow.classList.add("closing");
+  setTimeout(() => xpWindow.style.display = "none", 200);
+}
 
-      // Add all other files (videos/images)
-      data.files.forEach(file => {
-        if(file === logoFile) return; // skip logo
-        let el;
-        if(file.endsWith('.mp4')) {
-          el = document.createElement('video');
-          el.controls = true;
-        } else {
-          el = document.createElement('img');
-        }
-        el.src = 'butube/' + file;
-        container.appendChild(el);
-      });
-    })
-    .catch(err => console.error("Error loading Butube files:", err));
+// Volume toggle
+audioToggle.onclick = () => {
+  bgAudio.muted = !bgAudio.muted;
+  audioToggle.textContent = bgAudio.muted ? "🔇" : "🔊";
+};
+
+// PHASE 1: BuTube empty function
+function openBuTube() {
+  alert("BuTube coming soon");
+};
 </script>
 
 </body>
 </html>
+
+
 
 
