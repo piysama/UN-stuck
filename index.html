@@ -127,8 +127,6 @@ const audioToggle = document.getElementById("audioToggle");
 const loginSound = document.getElementById("loginSound");
 
 let musicUnlocked = false;
-
-// Base URL for root images
 const baseURL = "https://piysama.github.io/UN-stuck/";
 
 // Boot → Login
@@ -168,10 +166,10 @@ async function openWindow(year) {
     const images = await response.json();
 
     images
-      .filter(filename => filename.startsWith(year))
-      .forEach(filename => {
+      .filter(img => img.year == year)
+      .forEach(imgObj => {
         const img = new Image();
-        img.src = `${baseURL}${filename}`;
+        img.src = `${baseURL}${imgObj.file}`;
         const div = document.createElement("div");
         div.appendChild(img);
         gallery.appendChild(div);
@@ -201,6 +199,8 @@ audioToggle.onclick = () => {
 
 </body>
 </html>
+
+
 
 
 
