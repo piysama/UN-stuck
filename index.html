@@ -37,7 +37,7 @@ body {
 
 #desktop { display: none; background: url("https://wallpapercave.com/wp/wp2757874.jpg"); background-size: cover; padding: 40px; height: 100%; }
 .folder { width: 120px; margin: 20px; display: inline-block; cursor: pointer; text-align: center; }
-.folder img { width: 64px; }
+.folder img { width: 64px; height: auto; }
 .folder div { margin-top: 6px; font-size: 22px; }
 
 .window { position: absolute; top: 60px; left: 80px; width: 740px; height: 420px; background: #c0c0c0; border: 3px solid #000; display: none; transform: scale(0.8); opacity: 0; animation: openWin 0.25s ease forwards; z-index: 3; }
@@ -77,19 +77,19 @@ body {
 
     <div id="desktop">
       <div class="folder" onclick="openWindow(2022)">
-        <img src="https://icons.iconarchive.com/icons/treetog/junior/256/folder-icon.png">
+        <img src="folder.png">
         <div>2022</div>
       </div>
       <div class="folder" onclick="openWindow(2023)">
-        <img src="https://icons.iconarchive.com/icons/treetog/junior/256/folder-icon.png">
+        <img src="folder.png">
         <div>2023</div>
       </div>
       <div class="folder" onclick="openWindow(2024)">
-        <img src="https://icons.iconarchive.com/icons/treetog/junior/256/folder-icon.png">
+        <img src="folder.png">
         <div>2024</div>
       </div>
       <div class="folder" onclick="openWindow(2025)">
-        <img src="https://icons.iconarchive.com/icons/treetog/junior/256/folder-icon.png">
+        <img src="folder.png">
         <div>2025</div>
       </div>
     </div>
@@ -214,6 +214,8 @@ audioToggle.onclick = () => {
 
 </body>
 </html>
+
+
 
 
 
