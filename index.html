@@ -76,19 +76,19 @@ body {
     </div>
 
     <div id="desktop">
-      <div class="folder" onclick="openWindow('2022')">
+      <div class="folder" onclick="openWindow(2022)">
         <img src="https://icons.iconarchive.com/icons/treetog/junior/256/folder-icon.png">
         <div>2022</div>
       </div>
-      <div class="folder" onclick="openWindow('2023')">
+      <div class="folder" onclick="openWindow(2023)">
         <img src="https://icons.iconarchive.com/icons/treetog/junior/256/folder-icon.png">
         <div>2023</div>
       </div>
-      <div class="folder" onclick="openWindow('2024')">
+      <div class="folder" onclick="openWindow(2024)">
         <img src="https://icons.iconarchive.com/icons/treetog/junior/256/folder-icon.png">
         <div>2024</div>
       </div>
-      <div class="folder" onclick="openWindow('2025')">
+      <div class="folder" onclick="openWindow(2025)">
         <img src="https://icons.iconarchive.com/icons/treetog/junior/256/folder-icon.png">
         <div>2025</div>
       </div>
@@ -155,7 +155,7 @@ document.addEventListener("click", () => {
   }
 });
 
-// Open folder using manifest.json (fixed for string filenames)
+// Open folder using manifest.json
 async function openWindow(year) {
   winTitle.innerText = year;
   const gallery = xpWindow.querySelector(".gallery-grid");
@@ -166,12 +166,12 @@ async function openWindow(year) {
     const images = await response.json();
 
     images
-      .filter(filename => filename.startsWith(year)) // works with string filenames
-      .forEach(filename => {
-        const img = new Image();
-        img.src = `${baseURL}${filename}`;
+      .filter(img => img.year == year) // filter by 'year' property
+      .forEach(img => {
+        const imageElem = new Image();
+        imageElem.src = `${baseURL}${img.file}`; // use 'file' property
         const div = document.createElement("div");
-        div.appendChild(img);
+        div.appendChild(imageElem);
         gallery.appendChild(div);
       });
 
@@ -199,6 +199,8 @@ audioToggle.onclick = () => {
 
 </body>
 </html>
+
+
 
 
 
