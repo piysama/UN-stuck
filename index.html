@@ -37,7 +37,7 @@ body {
 
 #desktop { display: none; background: url("https://wallpapercave.com/wp/wp2757874.jpg"); background-size: cover; padding: 40px; height: 100%; }
 .folder { width: 120px; margin: 20px; display: inline-block; cursor: pointer; text-align: center; }
-.folder img { width: 64px; }
+.folder img { width: 64px; height: auto; }
 .folder div { margin-top: 6px; font-size: 22px; }
 
 .window { position: absolute; top: 60px; left: 80px; width: 740px; height: 420px; background: #c0c0c0; border: 3px solid #000; display: none; transform: scale(0.8); opacity: 0; animation: openWin 0.25s ease forwards; z-index: 3; }
@@ -52,26 +52,7 @@ body {
 .gallery-grid div { background: #fff; height: 140px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .gallery-grid img, .gallery-grid video { width: 100%; height: 100%; object-fit: cover; }
 
-/* NOW PLAYING BOX */
-#nowPlaying {
-  position: absolute;
-  bottom: 12px;
-  left: 12px;
-  background: #c0c0c0;
-  border: 2px solid #000;
-  padding: 6px 10px;
-  display: none;
-  align-items: center;
-  gap: 8px;
-  font-size: 18px;
-  cursor: pointer;
-  z-index: 6;
-}
-#nowPlaying img {
-  width: 28px;
-  height: 28px;
-  image-rendering: pixelated;
-}
+#audioToggle { position: absolute; top: 10px; left: 10px; background: #c0c0c0; padding: 6px 10px; cursor: pointer; }
 </style>
 </head>
 
@@ -85,6 +66,8 @@ body {
       <div class="progress-bar"><div class="progress"></div></div>
     </div>
 
+    <div id="audioToggle">🔊</div>
+
     <div id="login">
       <h1>Hello!</h1>
       <p>Enter password</p>
@@ -94,16 +77,20 @@ body {
 
     <div id="desktop">
       <div class="folder" onclick="openWindow(2022)">
-        <img src="folder.png"><div>2022</div>
+        <img src="folder.png">
+        <div>2022</div>
       </div>
       <div class="folder" onclick="openWindow(2023)">
-        <img src="folder.png"><div>2023</div>
+        <img src="folder.png">
+        <div>2023</div>
       </div>
       <div class="folder" onclick="openWindow(2024)">
-        <img src="folder.png"><div>2024</div>
+        <img src="folder.png">
+        <div>2024</div>
       </div>
       <div class="folder" onclick="openWindow(2025)">
-        <img src="folder.png"><div>2025</div>
+        <img src="folder.png">
+        <div>2025</div>
       </div>
     </div>
 
@@ -115,18 +102,17 @@ body {
       <div class="gallery-grid"></div>
     </div>
 
-    <!-- NOW PLAYING -->
-    <div id="nowPlaying">
-      <img src="turntable.gif">
-      <span id="trackText">Playing track</span>
-    </div>
-
     <div class="vignette"></div>
   </div>
 </div>
 
-<audio id="bgAudio" loop preload="auto" src="bg-music.mp3"></audio>
-<audio id="loginSound" src="https://archive.org/download/windows-xp-startup-sound/Windows%20XP%20Startup.mp3"></audio>
+<audio id="bgAudio" loop preload="auto">
+  <source src="./bg-music.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="loginSound">
+  <source src="https://archive.org/download/windows-xp-startup-sound/Windows%20XP%20Startup.mp3">
+</audio>
 
 <script>
 const boot = document.getElementById("boot");
@@ -136,14 +122,14 @@ const password = document.getElementById("password");
 const loginBtn = document.getElementById("loginBtn");
 const xpWindow = document.getElementById("xpWindow");
 const winTitle = document.getElementById("winTitle");
-
 const bgAudio = document.getElementById("bgAudio");
+const audioToggle = document.getElementById("audioToggle");
 const loginSound = document.getElementById("loginSound");
 
-const nowPlaying = document.getElementById("nowPlaying");
-const trackText = document.getElementById("trackText");
-
+// Use GitHub raw URLs for images
 const baseURL = "https://raw.githubusercontent.com/piysama/UN-stuck/main/";
+
+let musicUnlocked = false;
 
 // Boot → Login
 setTimeout(() => {
@@ -157,30 +143,21 @@ loginBtn.onclick = () => {
     login.style.display = "none";
     desktop.style.display = "block";
     loginSound.play().catch(()=>{});
-
-    bgAudio.volume = 0.6;
-    bgAudio.play().catch(()=>{});
-    nowPlaying.style.display = "flex";
-    trackText.textContent = "Playing track";
+    musicUnlocked = false;
   } else {
     alert("Wrong password");
   }
 };
 
-// Play / Pause
-nowPlaying.onclick = () => {
-  if (bgAudio.paused) {
-    bgAudio.play().catch(()=>{});
-    trackText.textContent = "Playing track";
-    nowPlaying.style.opacity = "1";
-  } else {
-    bgAudio.pause();
-    trackText.textContent = "Paused";
-    nowPlaying.style.opacity = "0.6";
+// First click unlocks music
+document.addEventListener("click", () => {
+  if (!musicUnlocked && desktop.style.display === "block") {
+    bgAudio.volume = 0.6;
+    bgAudio.play().then(()=>musicUnlocked = true).catch(()=>{});
   }
-};
+});
 
-// Open folder
+// Open folder using manifest.json
 async function openWindow(year) {
   winTitle.innerText = year;
   const gallery = xpWindow.querySelector(".gallery-grid");
@@ -190,40 +167,55 @@ async function openWindow(year) {
     const response = await fetch(`${baseURL}manifest.json`);
     const images = await response.json();
 
-    images.filter(i => i.year == year).forEach(i => {
-      const d = document.createElement("div");
-      if (i.file.endsWith(".mp4")) {
-        const v = document.createElement("video");
-        v.src = `${baseURL}${i.file}`;
-        v.controls = true;
-        d.appendChild(v);
-      } else {
-        const img = new Image();
-        img.src = `${baseURL}${i.file}`;
-        d.appendChild(img);
-      }
-      gallery.appendChild(d);
-    });
+    images
+      .filter(img => img.year == year) // filter by 'year' property
+      .forEach(img => {
+        const div = document.createElement("div");
 
-    if (!gallery.children.length) {
+        if(img.file.endsWith(".mp4") || img.file.endsWith(".webm")) {
+          const video = document.createElement("video");
+          video.src = `${baseURL}${img.file}`;
+          video.controls = true;
+          div.appendChild(video);
+        } else {
+          const imageElem = new Image();
+          imageElem.src = `${baseURL}${img.file}`;
+          div.appendChild(imageElem);
+        }
+
+        gallery.appendChild(div);
+      });
+
+    if(gallery.children.length === 0) {
       gallery.innerHTML = "<p style='color:red;'>No images found.</p>";
     }
-  } catch {
+
+  } catch (err) {
     gallery.innerHTML = "<p style='color:red;'>No images found.</p>";
+    console.error(err);
   }
 
   xpWindow.style.display = "block";
   xpWindow.classList.remove("closing");
 }
 
+// Close window
 function closeWindow() {
   xpWindow.classList.add("closing");
   setTimeout(() => xpWindow.style.display = "none", 200);
 }
+
+// Audio toggle
+audioToggle.onclick = () => {
+  bgAudio.muted = !bgAudio.muted;
+  audioToggle.textContent = bgAudio.muted ? "🔇" : "🔊";
+};
 </script>
 
 </body>
 </html>
+
+
 
 
 
