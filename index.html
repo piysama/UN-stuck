@@ -16,18 +16,18 @@
     overflow-x: hidden;
   }
 
-  /* CRT effect */
+  /* CRT scanlines */
   body::before {
     content: '';
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
+    top:0; left:0;
+    width:100%; height:100%;
+    pointer-events:none;
     background-image: repeating-linear-gradient(transparent 0 1px, rgba(0,0,0,0.1) 1px 2px);
-    z-index: 9999;
+    z-index:9999;
   }
 
-  /* Login/Hello screen */
+  /* Login screen */
   #login-screen {
     position: fixed;
     top:0; left:0;
@@ -59,13 +59,10 @@
     cursor:pointer;
   }
 
-  /* Main content after login */
-  #desktop {
-    display:none;
-    padding:20px;
-  }
+  /* Desktop content */
+  #desktop { display:none; padding:20px; }
 
-  /* Butube gallery window */
+  /* Butube window */
   #butube-window {
     background:#004d4d;
     border:2px solid #fff;
@@ -102,23 +99,21 @@
   <button onclick="login()">Enter</button>
 </div>
 
-<!-- Desktop content -->
+<!-- Desktop -->
 <div id="desktop">
   <h2>Welcome to your Retro XP Site</h2>
   
   <!-- Butube gallery window -->
   <div id="butube-window">
-    <h3>Butube Videos & Logo</h3>
+    <h3>Butube Logo & Videos</h3>
     <div id="butube-gallery"></div>
   </div>
 </div>
 
-<!-- Scripts -->
 <script>
   // Login function
   function login() {
     const pass = document.getElementById('username').value;
-    // Optional: you can set a password
     if(pass === "" || pass === "1234") {
       document.getElementById('login-screen').style.display = 'none';
       document.getElementById('desktop').style.display = 'block';
@@ -127,12 +122,23 @@
     }
   }
 
-  // Load Butube gallery from manifest
+  // Load Butube gallery
   fetch('butube/manifest.json')
     .then(res => res.json())
     .then(data => {
       const gallery = document.getElementById('butube-gallery');
+
+      // Always show the logo first
+      const logoFile = data.files.find(f => f.toLowerCase().includes('logo'));
+      if(logoFile) {
+        const logo = document.createElement('img');
+        logo.src = 'butube/' + logoFile;
+        gallery.appendChild(logo);
+      }
+
+      // Then show all other files except the logo
       data.files.forEach(file => {
+        if(file === logoFile) return; // skip logo
         let el;
         if(file.endsWith('.mp4')) {
           el = document.createElement('video');
@@ -149,6 +155,8 @@
 
 </body>
 </html>
+
+
 
 
 
