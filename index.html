@@ -410,14 +410,20 @@ async function openWindow(year) {
     gallery.innerHTML = "<p>No images found.</p>";
   }
 
-  xpWindow.style.display = "block";
   xpWindow.classList.remove("closing");
+xpWindow.classList.add("open");
+xpWindow.style.display = "block";
+
 }
 
 function closeWindow() {
+  xpWindow.classList.remove("open");
   xpWindow.classList.add("closing");
-  setTimeout(() => xpWindow.style.display = "none", 200);
+  setTimeout(() => {
+    xpWindow.style.display = "none";
+  }, 200);
 }
+
 
 // Volume toggle
 audioToggle.onclick = () => {
@@ -500,6 +506,7 @@ function closeBuTubeVideo() {
 
 </body>
 </html>
+
 
 
 
