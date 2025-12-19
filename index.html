@@ -405,6 +405,7 @@ async function openBuTube() {
       div.innerHTML = `
         <p>${video.title}</p>
       `;
+      div.onclick = () => playBuTubeVideo(video.file);
       gallery.appendChild(div);
     });
 
@@ -415,10 +416,21 @@ async function openBuTube() {
   xpWindow.style.display = "block";
   xpWindow.classList.remove("closing");
 }
+  
+ function playBuTubeVideo(file) {
+  const playerContainer = document.getElementById("butube-player");
+  const video = document.getElementById("butubeVideo");
+
+  video.src = "butube/" + file;
+  playerContainer.style.display = "block";
+  video.play();
+}
+ 
 </script>
 
 </body>
 </html>
+
 
 
 
