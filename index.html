@@ -280,6 +280,17 @@ body {
   padding:12px;
   border-bottom:3px solid #999;
 ">
+  <button onclick="closeBuTubeVideo()" style="
+  background:#ccc;
+  border:1px solid #666;
+  padding:4px 10px;
+  font-family:Tahoma;
+  cursor:pointer;
+  margin-bottom:8px;
+">
+  ◀ Back
+</button>
+
   <video
     id="butubeVideo"
     controls
@@ -399,11 +410,18 @@ async function openBuTube() {
 
   const gallery = xpWindow.querySelector(".gallery-grid");
   gallery.innerHTML = `
-    <div style="grid-column: 1 / -1; text-align:center;">
-      <img src="butube/butube-logo.png" style="height:60px; margin-bottom:10px;">
-      <p>Classic BuTube</p>
-    </div>
-  `;
+  <div id="butube-gallery-header" style="grid-column: 1 / -1; text-align:center;">
+    <img src="butube/butube-logo.png" style="height:60px; margin-bottom:10px;">
+    <p>Classic BuTube</p>
+  </div>
+
+  <div id="butube-thumbs" style="
+    grid-column: 1 / -1;
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap:10px;
+  "></div>
+`;
 
   try {
     const res = await fetch("butube/manifest.json");
@@ -416,7 +434,8 @@ async function openBuTube() {
         <p>${video.title}</p>
       `;
       div.onclick = () => playBuTubeVideo(video.file);
-      gallery.appendChild(div);
+      document.getElementById("butube-thumbs").appendChild(div);
+;
     });
 
   } catch (e) {
@@ -426,20 +445,41 @@ async function openBuTube() {
   xpWindow.style.display = "block";
   xpWindow.classList.remove("closing");
 }
-  
- function playBuTubeVideo(file) {
-  const playerContainer = document.getElementById("butube-player");
+ 
+function closeBuTubeVideo() {
+  const player = document.getElementById("butube-player");
   const video = document.getElementById("butubeVideo");
+  const thumbs = document.getElementById("butube-thumbs");
+  const header = document.getElementById("butube-gallery-header");
 
+  video.pause();
+  video.src = "";
+
+  player.style.display = "none";
+  header.style.display = "block";
+  thumbs.style.display = "grid";
+}
+ 
+ function playBuTubeVideo(file) {
+  const player = document.getElementById("butube-player");
+  const video = document.getElementById("butubeVideo");
+  const thumbs = document.getElementById("butube-thumbs");
+  const header = document.getElementById("butube-gallery-header");
+
+  header.style.display = "none";
+  thumbs.style.display = "none";
+
+  player.style.display = "block";
   video.src = "butube/" + file;
-  playerContainer.style.display = "block";
   video.play();
 }
+
  
 </script>
 
 </body>
 </html>
+
 
 
 
