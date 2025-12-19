@@ -215,13 +215,16 @@ body {
 }
 
 .gallery-grid {
-  padding: 20px;
+  padding: 15px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 10px;
+
+  /* 🔑 THE FIX */
+  flex: 1;
   overflow-y: auto;
-  max-height: 100%;
 }
+
 
 .gallery-grid div {
   background: #fff;
@@ -506,6 +509,7 @@ function closeBuTubeVideo() {
 
 </body>
 </html>
+
 
 
 
