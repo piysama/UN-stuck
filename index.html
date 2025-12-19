@@ -171,11 +171,15 @@ body {
   display: flex;
   flex-direction: column;
 
-  /* IMPORTANT: animation only when opened */
+  /* 🔑 IMPORTANT FIX */
+  pointer-events: none;
+
   animation: none;
 }
+
 .window.open {
   display: flex;
+  pointer-events: auto;
   animation: openWin 0.25s ease forwards;
 }
 
@@ -495,6 +499,7 @@ function closeBuTubeVideo() {
 
 </body>
 </html>
+
 
 
 
