@@ -161,16 +161,22 @@ body {
   background: #c0c0c0;
   border: 3px solid #000;
 
-  /* Keep original animation and hidden initially */
+  /* Hidden by default */
   display: none;
   transform: scale(0.8);
   opacity: 0;
-  animation: openWin 0.25s ease forwards;
-  z-index: 3;
 
-  /* NEW: Flex layout for vertical stacking */
+  /* Layout */
+  z-index: 3;
   display: flex;
   flex-direction: column;
+
+  /* IMPORTANT: animation only when opened */
+  animation: none;
+}
+.window.open {
+  display: flex;
+  animation: openWin 0.25s ease forwards;
 }
 
 
@@ -489,6 +495,7 @@ function closeBuTubeVideo() {
 
 </body>
 </html>
+
 
 
 
