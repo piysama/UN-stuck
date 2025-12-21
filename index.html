@@ -481,38 +481,28 @@ async function openBuTube() {
   winTitle.innerText = "BuTube";
 
   const gallery = xpWindow.querySelector(".gallery-grid");
-  gallery.innerHTML = `
-  gallery.innerHTML = `
-  <div id="butube-gallery-header">
-    <img src="butube/butube-logo.png">
-    <p>Classic BuTube</p>
-  </div>
 
-  <div id="butube-thumbs"></div>
-`;
+  gallery.innerHTML = `
+    <div id="butube-gallery-header">
+      <img src="butube/butube-logo.png" style="height:40px">
+      <p>Classic BuTube</p>
+    </div>
 
-  <div id="butube-thumbs" style="
-  grid-column: 1 / -1;
-  display:grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap:10px;
-  padding-top:10px;
-"></div>
-`;
+    <div id="butube-thumbs"></div>
+  `;
 
   try {
     const res = await fetch("butube/manifest.json");
     const data = await res.json();
 
+    const thumbs = document.getElementById("butube-thumbs");
+
     data.videos.forEach(video => {
       const div = document.createElement("div");
       div.style.cursor = "pointer";
-      div.innerHTML = `
-        <p>${video.title}</p>
-      `;
+      div.textContent = video.title;
       div.onclick = () => playBuTubeVideo(video.file);
-      document.getElementById("butube-thumbs").appendChild(div);
-;
+      thumbs.appendChild(div);
     });
 
   } catch (e) {
@@ -520,8 +510,8 @@ async function openBuTube() {
   }
 
   xpWindow.classList.remove("closing");
-xpWindow.classList.add("open");
-xpWindow.style.display = "block";
+  xpWindow.classList.add("open");
+  xpWindow.style.display = "block";
 }
  
 function closeBuTubeVideo() {
@@ -557,6 +547,7 @@ function closeBuTubeVideo() {
 
 </body>
 </html>
+
 
 
 
