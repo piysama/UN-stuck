@@ -253,7 +253,6 @@ body {
   background: #fff;
   border: 2px solid #999;
   overflow: hidden;
-  aspect-ratio: 1 / 1; /* PERFECT square thumbnails */
 }
 
 
@@ -262,10 +261,24 @@ body {
 .gallery-grid video {
   width: 100%;
   height: 100%;
-  object-fit: cover;
   display: block;
 }
 
+.butube-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.butube-thumbs {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  padding: 14px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 
   #butube-thumbs div {
   background: #fff;
@@ -512,11 +525,14 @@ async function openBuTube() {
 gallery.className = "gallery-grid";
 gallery.innerHTML = `
   <div id="butube-gallery-header">
-    <img src="butube/butube-logo.png" style="height:40px">
-    <p>Classic BuTube</p>
-  </div>
+    <div class="butube-container">
+    <div id="butube-gallery-header">
+      <img src="butube/butube-logo.png">
+      <p>Classic BuTube</p>
+    </div>
 
-  <div id="butube-thumbs"></div>
+    <div class="butube-thumbs" id="butube-thumbs"></div>
+  </div>
 `;
 
 
@@ -579,6 +595,7 @@ function closeBuTubeVideo() {
 
 </body>
 </html>
+
 
 
 
