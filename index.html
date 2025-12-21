@@ -470,7 +470,12 @@ async function openBuTube() {
   const gallery = xpWindow.querySelector(".gallery-grid");
   gallery.innerHTML = `
   <div id="butube-gallery-header" style="grid-column: 1 / -1; text-align:center;">
-    <img src="butube/butube-logo.png" style="height:60px; margin-bottom:10px;">
+    <img src="butube/butube-logo.png" style="
+  height:60px;
+  width:auto;
+  object-fit:contain;
+  margin-bottom:10px;
+">
     <p>Classic BuTube</p>
   </div>
 
@@ -540,6 +545,7 @@ function closeBuTubeVideo() {
 
 </body>
 </html>
+
 
 
 
