@@ -227,7 +227,10 @@ body {
 }
   
 #butube-thumbs {
-  max-height: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+
   overflow-y: auto;
 }
 
@@ -479,15 +482,14 @@ async function openBuTube() {
 
   const gallery = xpWindow.querySelector(".gallery-grid");
   gallery.innerHTML = `
-  <div id="butube-gallery-header" style="grid-column: 1 / -1; text-align:center;">
-    <img src="butube/butube-logo.png" style="
-  height:60px;
-  width:auto;
-  object-fit:contain;
-  margin-bottom:10px;
-">
-    <p style="margin:0;">Classic BuTube</p>
+  gallery.innerHTML = `
+  <div id="butube-gallery-header">
+    <img src="butube/butube-logo.png">
+    <p>Classic BuTube</p>
   </div>
+
+  <div id="butube-thumbs"></div>
+`;
 
   <div id="butube-thumbs" style="
   grid-column: 1 / -1;
@@ -555,6 +557,7 @@ function closeBuTubeVideo() {
 
 </body>
 </html>
+
 
 
 
