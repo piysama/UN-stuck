@@ -216,12 +216,14 @@ body {
 }
 
 .gallery-grid {
-  padding: 0;
-  display: flex;
-  flex-direction: column;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
 
   height: calc(100% - 32px); /* below titlebar */
-  overflow: hidden;         /* ONLY children scroll */
+  overflow-y: auto;
+  overflow-x: hidden;
 }
   
 #butube-thumbs {
@@ -237,8 +239,9 @@ body {
 
 .gallery-grid div {
   background: #fff;
-  height: 140px;
-  overflow: hidden;     /* HARD CLIP */
+  border: 2px solid #999;
+  overflow: hidden;
+  aspect-ratio: 1 / 1; /* PERFECT square thumbnails */
 }
 
 
@@ -563,6 +566,7 @@ function closeBuTubeVideo() {
 
 </body>
 </html>
+
 
 
 
