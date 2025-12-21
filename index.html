@@ -221,7 +221,8 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 10px;
 
-  flex: 1;              /* fills window below titlebar */
+  flex: 1;
+  min-height: 0;/* fills window below titlebar */
   overflow-y: auto;     /* enables scrolling */
   overflow-x: hidden;
 }
@@ -523,6 +524,7 @@ function closeBuTubeVideo() {
 
 </body>
 </html>
+
 
 
 
