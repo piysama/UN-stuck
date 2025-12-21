@@ -259,7 +259,17 @@ body {
 #butube-player {
   flex-shrink: 0;
 }
-  
+
+#butube-gallery-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 6px 10px;
+  background: #fff;
+
+  height: auto;
+}  
 </style>
 </head>
 
@@ -476,7 +486,7 @@ async function openBuTube() {
   object-fit:contain;
   margin-bottom:10px;
 ">
-    <p>Classic BuTube</p>
+    <p style="margin:0;">Classic BuTube</p>
   </div>
 
   <div id="butube-thumbs" style="
@@ -545,6 +555,7 @@ function closeBuTubeVideo() {
 
 </body>
 </html>
+
 
 
 
