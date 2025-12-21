@@ -402,6 +402,19 @@ document.addEventListener("click", () => {
 });
 
 async function openWindow(year) {
+  
+  const player = document.getElementById("butube-player");
+  const video = document.getElementById("butubeVideo");
+
+  if (video) {
+    video.pause();
+    video.src = "";
+  }
+
+  if (player) {
+    player.style.display = "none";
+  }
+  
   winTitle.innerText = year;
   const gallery = xpWindow.querySelector(".gallery-grid");
   gallery.innerHTML = "";
@@ -523,6 +536,7 @@ function closeBuTubeVideo() {
 
 </body>
 </html>
+
 
 
 
