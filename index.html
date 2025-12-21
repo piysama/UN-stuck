@@ -509,17 +509,16 @@ async function openBuTube() {
   winTitle.innerText = "BuTube";
 
   const gallery = xpWindow.querySelector(".gallery-grid");
-  gallery.className = "gallery-grid";
+gallery.className = "gallery-grid";
 gallery.innerHTML = `
+  <div id="butube-gallery-header">
+    <img src="butube/butube-logo.png" style="height:40px">
+    <p>Classic BuTube</p>
+  </div>
 
-  gallery.innerHTML = `
-    <div id="butube-gallery-header">
-      <img src="butube/butube-logo.png" style="height:40px">
-      <p>Classic BuTube</p>
-    </div>
+  <div id="butube-thumbs"></div>
+`;
 
-    <div id="butube-thumbs"></div>
-  `;
 
   try {
     const res = await fetch("butube/manifest.json");
@@ -580,6 +579,7 @@ function closeBuTubeVideo() {
 
 </body>
 </html>
+
 
 
 
