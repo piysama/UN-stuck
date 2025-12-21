@@ -216,14 +216,12 @@ body {
 }
 
 .gallery-grid {
-  padding: 15px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 10px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
 
-  height: calc(100% - 32px);/* fills window below titlebar */
-  overflow-y: auto;     /* enables scrolling */
-  overflow-x: hidden;
+  height: calc(100% - 32px); /* below titlebar */
+  overflow: hidden;         /* ONLY children scroll */
 }
   
 #butube-thumbs {
@@ -276,7 +274,8 @@ body {
 
   height: 70px;
   flex-shrink: 0;
-  
+}
+
 #butube-gallery-header img {
   height: 48px;
   width: auto;
@@ -556,6 +555,7 @@ function closeBuTubeVideo() {
 
 </body>
 </html>
+
 
 
 
