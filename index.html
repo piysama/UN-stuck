@@ -266,12 +266,18 @@ body {
 #butube-gallery-header {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 
-  padding: 6px 10px;
+  padding: 8px 12px;
   background: #fff;
 
-  height: auto;
+  height: 70px;
+  flex-shrink: 0;
+  
+#butube-gallery-header img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
 }  
 </style>
 </head>
@@ -547,6 +553,7 @@ function closeBuTubeVideo() {
 
 </body>
 </html>
+
 
 
 
