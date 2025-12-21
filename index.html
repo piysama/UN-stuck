@@ -221,34 +221,23 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 12px;
 
-  height: calc(100% - 32px); /* below titlebar */
-  overflow-y: auto;
-  overflow-x: hidden;
-}
- .image-grid {
-  flex: 1;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 10px;
-  padding: 10px;
-
+  height: calc(100% - 32px);
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-.image-grid div {
+.gallery-grid div {
   background: #fff;
-  height: auto;
-  overflow: hidden;
+  border: 2px solid #999;
 }
 
-.image-grid img {
+.gallery-grid img {
   width: 100%;
   height: auto;
-  object-fit: contain;
   display: block;
-} 
+}
 
+  
 #butube-thumbs {
   flex: 1;                 /* TAKE ALL remaining height */
   display: grid;
@@ -473,7 +462,6 @@ async function openWindow(year) {
   
   winTitle.innerText = year;
   const gallery = xpWindow.querySelector(".gallery-grid");
-  gallery.className = "gallery-grid image-grid";
   gallery.innerHTML = "";
 
   try {
@@ -521,6 +509,8 @@ async function openBuTube() {
   winTitle.innerText = "BuTube";
 
   const gallery = xpWindow.querySelector(".gallery-grid");
+  gallery.className = "gallery-grid";
+gallery.innerHTML = `
 
   gallery.innerHTML = `
     <div id="butube-gallery-header">
@@ -590,6 +580,7 @@ function closeBuTubeVideo() {
 
 </body>
 </html>
+
 
 
 
