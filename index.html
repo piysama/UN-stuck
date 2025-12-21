@@ -227,11 +227,14 @@ body {
 }
   
 #butube-thumbs {
+  flex: 1;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 10px;
 
+  padding: 10px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .gallery-grid div {
@@ -553,6 +556,7 @@ function closeBuTubeVideo() {
 
 </body>
 </html>
+
 
 
 
