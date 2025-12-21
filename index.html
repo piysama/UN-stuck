@@ -327,6 +327,11 @@ body {
   cursor: pointer;
 }
 
+.gallery-grid.butube-mode {
+  display: block;
+  padding: 0;
+}
+
 </style>
 </head>
 
@@ -488,7 +493,8 @@ async function openWindow(year) {
   
   winTitle.innerText = year;
   const gallery = xpWindow.querySelector(".gallery-grid");
-  gallery.innerHTML = "";
+gallery.className = "gallery-grid"; // ← restore image grid
+gallery.innerHTML = "";
 
   try {
     const response = await fetch(`${baseURL}manifest.json`);
@@ -535,7 +541,7 @@ async function openBuTube() {
   winTitle.innerText = "BuTube";
 
   const gallery = xpWindow.querySelector(".gallery-grid");
-gallery.className = "gallery-grid";
+gallery.className = "gallery-grid butube-mode";
 gallery.innerHTML = `
   <div class="butube-container">
     <div id="butube-gallery-header">
@@ -606,6 +612,7 @@ function closeBuTubeVideo() {
 
 </body>
 </html>
+
 
 
 
